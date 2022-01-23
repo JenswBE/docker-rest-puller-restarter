@@ -1,0 +1,7 @@
+Clients:
+  - Name: Test
+    APIKey: TEST_API_KEY
+    ContainerNames: nginx,traefik
+Server:
+  Debug: true
+  Port: 8080

@@ -1,0 +1,85 @@
+openapi: "3.0.2"
+info:
+  title: Docker Pull-Restarter
+  version: "1.0"
+
+servers:
+  - description: Local
+    url: /
+
+paths:
+  /{container_name}/pull_restart/:
+    parameters:
+      - $ref: "#/components/parameters/pathContainerName"
+    post:
+      operationId: pull_restart_container
+      description: Pull and restart container if new image was pulled
+      responses:
+        "204":
+          description: No Content
+        "default":
+          $ref: "#/components/responses/Error"
+
+components:
+  parameters:
+    pathContainerName:
+      name: container_name
+      in: path
+      description: Container name
+      required: true
+      schema:
+        type: string
+        example: nginx
+
+  responses:
+    Error:
+      description: Default error response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+
+  schemas:
+    APIError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        status:
+          description: HTTP status code
+          type: integer
+          example: 400
+        code:
+          $ref: "#/components/schemas/APIErrorCode"
+        message:
+          description: Human-readable description of the error
+          type: string
+          example: Provided authentication token is invalid
+        instance:
+          description: Object to which this error is related
+          type: string
+          example: ""
+
+    APIErrorCode:
+      description: |
+        - CONTAINER_NAME_NOT_ENABLED_FOR_API_KEY: Provided API key is not allowed to interact with the provided container name
+        - INVALID_API_KEY: Provided API key is invalid
+        - UNKNOWN_CONTAINER: There was no container found with the provided name
+        - UNKNOWN_ERROR: An unknown error occurred
+      type: string
+      example: INVALID_AUTH_TOKEN
+      enum:
+        - CONTAINER_NAME_NOT_ENABLED_FOR_API_KEY
+        - INVALID_API_KEY
+        - UNKNOWN_CONTAINER
+        - UNKNOWN_ERROR
+
+  securitySchemes:
+    apiAuth:
+      type: apiKey
+      name: API-KEY
+      in: header
+
+security:
+  - apiAuth: []
