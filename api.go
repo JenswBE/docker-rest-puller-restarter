@@ -81,6 +81,11 @@ func (h *Handler) validateAPIKey(c *gin.Context, containerName string) error {
 	}
 
 	// Validation successful
+	log.Info().
+		Str("ip", c.ClientIP()).
+		Str("client", client.Name).
+		Str("container", containerName).
+		Msgf("Client %s requested pull-restart for container %s", client.Name, containerName)
 	return nil
 }
 
