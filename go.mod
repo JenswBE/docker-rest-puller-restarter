@@ -9,6 +9,5 @@ require (
 	github.com/gin-gonic/gin v1.7.7
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/rs/zerolog v1.26.1
-	github.com/spf13/viper v1.4.0
-	google.golang.org/grpc v1.43.0 // indirect
+	github.com/spf13/viper v1.10.1
 )
