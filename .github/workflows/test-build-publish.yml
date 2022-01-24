@@ -2,6 +2,8 @@ name: Test, build and publish Golang services
 on:
   push:
     branches: [main]
+    tags:
+      - "v*.*.*"
 
 env:
   DOCKER_HUB_REPO: jenswbe/docker-rest-puller-restarter
@@ -14,6 +16,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
+
+      - name: Derive docker_tag
+        id: vars
+        shell: python
+        run: |
+          import os, re, sys
+          tag = os.environ['GITHUB_REF'].split('/').pop()
+          tags = []
+          semverRegex = r"^v\d+\.\d+\.\d+$"
+          if tag == 'main':
+            tags = ['latest']
+          elif re.match(semverRegex, tag):
+            tags = ['stable', tag]
+          else:
+            sys.exit(f"Invalid tag {tag}. Must be main or a semver tag")
+          images = []
+          image_base = os.environ['DOCKER_HUB_REPO']
+          images = [f"{image_base}:{t}" for t in tags]
+          imagesList = ",".join(images)
+          print(f"::set-output name=images::{imagesList}")
 
       - uses: actions/setup-go@v2
         with:
@@ -46,7 +68,7 @@ jobs:
         with:
           platforms: ${{ env.PLATFORMS }}
           push: true
-          tags: ${{ env.DOCKER_HUB_REPO }}:latest
+          tags: ${{ steps.vars.outputs.images }}
 
       - name: Update repo description
         uses: peter-evans/dockerhub-description@v2.4.3
