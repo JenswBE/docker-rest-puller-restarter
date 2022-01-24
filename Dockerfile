@@ -14,7 +14,7 @@ ENV GOOS=linux
 ENV GOARCH=arm
 ENV GOARM=7
 
-FROM builder-base AS builder-arm64v8
+FROM builder-base AS builder-arm64
 ENV GOOS=linux
 ENV GOARCH=arm64
 
