@@ -11,10 +11,6 @@ env:
 jobs:
   build-services:
     runs-on: ubuntu-20.04
-    env:
-      BUILD_PATH: src
-      BUILD_FILE: ${{ matrix.service }}.Dockerfile
-      DOCKER_HUB_REPO: jenswbe/sunrise-alarm-${{ matrix.service }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
@@ -26,11 +22,9 @@ jobs:
       - name: Lint service
         uses: golangci/golangci-lint-action@v2
         with:
-          working-directory: ${{ env.BUILD_PATH }}/${{ matrix.service }}
           skip-go-installation: true
 
       - name: Test exhaustive use of case statements
-        working-directory: ${{ env.BUILD_PATH }}/${{ matrix.service }}
         run: |
           go install github.com/nishanths/exhaustive/...@latest
           exhaustive ./...
