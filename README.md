@@ -2,6 +2,11 @@
 
 KISS REST API to pull and restart Docker containers
 
+## Links
+
+- GitHub: https://github.com/JenswBE/docker-rest-puller-restarter
+- DockerHub: https://hub.docker.com/r/jenswbe/docker-rest-puller-restarter
+
 ## Usage
 
 Create a `config.yml` file:
