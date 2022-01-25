@@ -29,15 +29,16 @@ jobs:
           if tag == 'main':
             tags = ['latest']
           elif re.match(semverRegex, tag):
-            tags = ['stable', tag]
+            tag_parts = tag.split(".")
+            tags = ['stable', tag, tag_parts[0], f"{tag_parts[0]}.{tag_parts[1]}"]
           else:
             sys.exit(f"Invalid tag {tag}. Must be main or a semver tag")
           images = []
           image_base = os.environ['DOCKER_HUB_REPO']
           images = [f"{image_base}:{t}" for t in tags]
-          imagesList = ",".join(images)
-          print(f"Images: {imagesList}")
-          print(f"::set-output name=images::{imagesList}")
+          images_list = ",".join(images)
+          print(f"Images: {images_list}")
+          print(f"::set-output name=images::{images_list}")
 
       - uses: actions/setup-go@v2
         with:
