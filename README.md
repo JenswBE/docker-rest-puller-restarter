@@ -7,7 +7,7 @@ KISS REST API to pull and restart Docker containers
 - GitHub: https://github.com/JenswBE/docker-rest-puller-restarter
 - DockerHub: https://hub.docker.com/r/jenswbe/docker-rest-puller-restarter
 
-## Usage
+## Configuration
 
 Create a `config.yml` file:
 
@@ -23,3 +23,11 @@ Server: # Optional
 ```
 
 See https://github.com/JenswBE/docker-rest-puller-restarter/blob/main/docker-compose.yml for a Docker Compose example.
+
+## Usage
+
+```bash
+API_KEY=""
+CONTAINER_NAME=""
+curl --fail -vH "API-KEY: ${API_KEY:?}" -X POST "https://drpr-eve.jensw.be/${CONTAINER_NAME:?}/pull_restart/"
+```
