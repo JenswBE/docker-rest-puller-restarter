@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/JenswBE/docker-rest-puller-restarter/openapi"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/network"
 	docker "github.com/docker/docker/client"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
@@ -37,14 +39,21 @@ func (s *DockerService) PullRestartContainer(ctx context.Context, containerName 
 	// Pull image
 	imageName := container.Config.Image
 	log.Debug().Str("image", imageName).Msg("Pulling image ...")
-	imageRC, err := s.client.ImagePull(ctx, imageName, types.ImagePullOptions{})
+	imagePullLogs, err := s.client.ImagePull(ctx, imageName, types.ImagePullOptions{})
 	if err != nil {
 		log.Warn().Err(err).Str("image", imageName).Str("container", containerName).Msgf("Failed to pull image")
 		err = fmt.Errorf("failed to pull image %s: %w", imageName, err)
 		return NewError(http.StatusInternalServerError, openapi.APIERRORCODE_UNKNOWN_ERROR, "", err)
 	}
-	imageRC.Close()
-	log.Debug().Str("image", imageName).Msg("Latest image pulled")
+	defer imagePullLogs.Close()
+	if zerolog.GlobalLevel() <= zerolog.DebugLevel {
+		logs, err := io.ReadAll(imagePullLogs)
+		if err != nil {
+			log.Warn().Err(err).Str("image", imageName).Msg("Latest image pulled, but failed to read logs")
+		} else {
+			log.Debug().Bytes("logs", logs).Str("image", imageName).Msg("Latest image pulled")
+		}
+	}
 
 	// Re-create container
 	return s.recreateContainer(ctx, container)
