@@ -14,7 +14,7 @@ require (
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.2 // indirect
-	github.com/rs/zerolog v1.26.1
+	github.com/rs/zerolog v1.28.0
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/viper v1.12.0
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
