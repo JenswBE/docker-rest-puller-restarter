@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.16 AS builder-base
+FROM --platform=${BUILDPLATFORM} golang:1.18 AS builder-base
 
 FROM builder-base AS builder-amd64
 ENV GOOS=linux
