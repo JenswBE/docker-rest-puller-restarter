@@ -3,7 +3,7 @@ module github.com/JenswBE/docker-rest-puller-restarter
 go 1.18
 
 require (
-	github.com/docker/docker v20.10.21+incompatible
+	github.com/docker/docker v20.10.23+incompatible
 	github.com/gin-gonic/gin v1.8.1
 	github.com/rs/zerolog v1.28.0
 	github.com/spf13/viper v1.14.0
