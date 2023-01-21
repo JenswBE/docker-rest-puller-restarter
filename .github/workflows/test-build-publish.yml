@@ -38,7 +38,8 @@ jobs:
           images = [f"{image_base}:{t}" for t in tags]
           images_list = ",".join(images)
           print(f"Images: {images_list}")
-          print(f"::set-output name=images::{images_list}")
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+            output.write(f"images={images_list}{os.linesep}")
 
       - uses: actions/setup-go@v3
         with:
