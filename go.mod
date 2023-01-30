@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/docker/docker v20.10.23+incompatible
 	github.com/gin-gonic/gin v1.8.2
-	github.com/rs/zerolog v1.28.0
+	github.com/rs/zerolog v1.29.0
 	github.com/spf13/viper v1.15.0
 )
 
