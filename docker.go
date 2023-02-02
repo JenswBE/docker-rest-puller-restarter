@@ -22,7 +22,7 @@ func NewDockerService() (*DockerService, error) {
 	// Create Docker client
 	client, err := docker.NewClientWithOpts(docker.FromEnv)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create new Docker client: %w", err)
 	}
 
 	// Build Docker service

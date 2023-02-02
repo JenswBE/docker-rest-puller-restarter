@@ -32,8 +32,8 @@ func (e *APIError) Error() string {
 	return fmt.Sprintf("%d - %s - %s", e.Status, e.Message, e.Instance)
 }
 
-// NewError returns a new APIError
-func NewError(status int, code openapi.APIErrorCode, instance string, err error) error {
+// NewError returns a new APIError.
+func NewError(status int, code openapi.APIErrorCode, instance string, err error) *APIError {
 	return &APIError{
 		Status:   status,
 		Err:      err,

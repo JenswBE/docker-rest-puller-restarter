@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"net/http"
 	"reflect"
 
@@ -56,8 +57,8 @@ func (h *Handler) pullRestartContainer(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-// validateAPIKey checks if the API key exists. Next to this, it validates
-// if the API key has access to a container with that name
+// validateAPIKey checks if the API key exists.
+// Next to this, it validates if the API key has access to a container with that name.
 func (h *Handler) validateAPIKey(c *gin.Context, containerName string) error {
 	// Extact API key
 	apiKey := c.GetHeader("API-KEY")
@@ -94,9 +95,10 @@ func (h *Handler) validateAPIKey(c *gin.Context, containerName string) error {
 // If no, status is 500 and provided error message are returned.
 func errToResponse(e error) (int, *APIError) {
 	log.Debug().Err(e).Msg("Error received on API level")
-	if err, ok := e.(*APIError); ok {
-		return err.Status, err
+	var apiErr *APIError
+	if errors.As(e, &apiErr) {
+		return apiErr.Status, apiErr
 	}
 	log.Warn().Err(e).Stringer("error_type", reflect.TypeOf(e)).Msg("API received an non-APIError error")
-	return 500, NewError(500, openapi.APIERRORCODE_UNKNOWN_ERROR, "", e).(*APIError)
+	return 500, NewError(500, openapi.APIERRORCODE_UNKNOWN_ERROR, "", e)
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/rs/zerolog/log"
@@ -35,7 +36,7 @@ func parseConfig() (*Config, error) {
 	viper.AddConfigPath("..")
 	err := viper.ReadInConfig()
 	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+		if !errors.Is(err, &viper.ConfigFileNotFoundError{}) {
 			return nil, fmt.Errorf("failed reading config file: %w", err)
 		}
 		log.Warn().Err(err).Msg("No config file found, expecting configuration through ENV variables")
