@@ -1,6 +1,6 @@
 module github.com/JenswBE/docker-rest-puller-restarter
 
-go 1.18
+go 1.20
 
 require (
 	github.com/docker/docker v20.10.23+incompatible
