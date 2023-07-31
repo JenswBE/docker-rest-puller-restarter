@@ -3,7 +3,7 @@ module github.com/JenswBE/docker-rest-puller-restarter
 go 1.20
 
 require (
-	github.com/docker/docker v20.10.23+incompatible
+	github.com/docker/docker v24.0.5+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/rs/zerolog v1.30.0
 	github.com/spf13/viper v1.16.0
@@ -41,7 +41,6 @@ require (
 	github.com/opencontainers/image-spec v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
