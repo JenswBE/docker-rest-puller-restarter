@@ -1,4 +1,6 @@
-# docker-rest-puller-restarter
+# This project is no longer maintained
+
+## docker-rest-puller-restarter
 
 KISS REST API to pull and restart Docker containers
 
